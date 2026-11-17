@@ -149,14 +149,67 @@ footer{position:relative}
 .links a{color:#0b3f48}
 .leaf.empty{background:#f7faf9}
 
-.gos{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-.go{display:inline-block;text-decoration:none;background:var(--teal);color:#fff;border-radius:12px;padding:10px 18px;font-weight:700;font-size:15.5px}
-.go.ghost{background:#fff;color:var(--teal);border:1.5px solid var(--teal)}
-.go.off{background:#eef2f2;color:#7b8a8d;font-weight:500}
-a.x-btn{display:block;text-decoration:none}
-.x-btn .go.sm{margin-top:10px;padding:6px 14px;font-size:13.5px}
-.sec-link{order:3;font-size:13.5px;font-weight:700;color:var(--teal);text-decoration:none;border:1.5px solid var(--teal);border-radius:10px;padding:3px 12px;background:#fff}
-@media (max-width:720px){.extras{grid-template-columns:1fr 1fr;gap:10px}a.x-btn{padding:12px}}
+/* ===== نمط بنفسجي فاتح مستوحى من لوحات التعلم ===== */
+:root{--ink:#1e1b2e;--teal:#7b5cf0;--teal2:#9b84f5;--teal-soft:#ece7fd;--gold:#7b5cf0;--gold-soft:#ece7fd;--bg:#f4f1fc;--card:rgba(255,255,255,.72);--line:#e6e0f7;--muted:#6b6880;--ok:#6a4fe0;--ok-soft:#ebe5fd;--wait:#8a84a3;--wait-soft:#f1eef9}
+body{background:radial-gradient(900px 600px at 85% 0%,#e4dcfb 0,transparent 60%),radial-gradient(800px 600px at 0% 100%,#ebe5fb 0,transparent 60%),#f4f1fc!important;color:var(--ink)}
+.hero{background:transparent!important;color:var(--ink);text-align:right;padding:22px max(18px,calc((100% - 1060px)/2 + 16px)) 26px;display:grid;grid-template-columns:auto 1fr;grid-template-areas:"logo title" "logo school" "names names";column-gap:22px;align-items:center}
+.hero-logo{grid-area:logo;height:78px;margin:0;background:#fff;padding:10px 18px;border-radius:20px;box-shadow:0 6px 22px rgba(123,92,240,.12)}
+.hero .ministry{display:none}
+.hero h1{grid-area:title;color:var(--ink);font-size:46px;font-weight:800;margin:0;text-shadow:none;letter-spacing:-.5px}
+.hero .school{grid-area:school;color:var(--muted);opacity:1;font-size:17px;margin:2px 0 0}
+.hero .year{position:absolute;opacity:0;pointer-events:none}
+.hero-names{grid-area:names;display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.hero-names span{background:rgba(255,255,255,.75);border:1px solid #fff;border-radius:999px;padding:8px 16px;font-size:14.5px;color:var(--muted);box-shadow:0 2px 10px rgba(123,92,240,.06)}
+.hero-names b{color:var(--ink)}
+.hero-names .yr{background:var(--teal);color:#fff;border-color:var(--teal)}
+.wrap{margin-top:0}
+.banner{background:#fff;border-color:var(--line);color:var(--muted);border-radius:16px}
+.stats{gap:12px}
+.stat{background:transparent;box-shadow:none;text-align:right;padding:6px 8px}
+.stat b{font-size:46px;font-weight:600;color:var(--ink);letter-spacing:-1px}
+.stat span{font-size:14px;color:var(--muted)}
+.main-btn,.x-btn,.panel,.t-card,details.fold,.leaf,.search{background:var(--card)!important;border:1px solid rgba(255,255,255,.9)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 8px 30px rgba(123,92,240,.08)!important}
+.main-btn{border-radius:26px;position:relative;border-top:1px solid #fff!important}
+.mb-head,.main-btn.gold .mb-head{background:transparent!important;border-bottom:0!important;padding:22px 24px 6px}
+.main-btn .mb-head h2,.main-btn.gold .mb-head h2{color:var(--ink);font-size:27px}
+.mb-head .ico,.gold .mb-head .ico,.ico,.gold .ico{background:#fff!important;color:var(--teal)!important;border-radius:50%;box-shadow:0 2px 10px rgba(123,92,240,.12)}
+.main-btn:after{content:"↗";position:absolute;top:22px;left:22px;width:46px;height:46px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:20px;color:var(--ink);box-shadow:0 2px 10px rgba(123,92,240,.12)}
+.mb-body{padding:6px 24px 22px}
+.main-btn p,.x-btn small{color:var(--muted)}
+.pill{background:#fff;border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:4px 14px;font-size:13.5px}
+.pill.ok{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+.pill.wait{background:var(--wait-soft);color:var(--wait);border-color:transparent}
+.bar{height:22px;border-radius:8px;background:repeating-linear-gradient(90deg,#ddd5fb 0 4px,transparent 4px 7px)!important}
+.bar i{border-radius:8px 0 0 8px;background:repeating-linear-gradient(90deg,#7b5cf0 0 4px,transparent 4px 7px)!important}
+h3.sec{color:var(--ink);font-size:22px}
+h3.sec:after{background:var(--line)}
+.x-btn{border-radius:22px}
+.x-btn b{color:var(--ink)}
+.search{border-radius:999px}
+.panel{border-radius:26px}
+.panel h2{color:var(--ink)}
+.back{background:var(--teal);color:#fff;border-radius:999px;padding:8px 18px}
+.drive{border-radius:999px;border-color:var(--line);color:var(--ink);background:#fff}
+.tabs{border-bottom:0;background:rgba(255,255,255,.7);border-radius:999px;padding:5px;display:inline-flex;gap:4px}
+.tab{border-radius:999px;border-bottom:0!important;margin:0;padding:8px 18px}
+.tab.on{background:var(--teal);color:#fff!important}
+.t-card{border-radius:22px}.t-card b{color:var(--ink)}
+.dot{border-radius:999px;padding:2px 10px}
+.dot.y{background:var(--teal);color:#fff}.dot.n{background:#fff;color:#a9a4bd;border:1px solid var(--line)}
+details.fold{border-radius:20px}
+details.fold>summary{background:transparent!important;color:var(--ink)}
+details.fold>summary:before{color:var(--teal)}
+.leaf{border-radius:16px}.leaf.empty{border-style:dashed!important}
+.leaf-h{color:var(--ink)}
+.matrix th,.matrix th:first-child{background:#f6f3fe;color:var(--ink)}
+.yes{color:var(--teal)}
+.new{background:var(--teal)}
+.file:hover{background:#f1edfd}
+.note{background:#fff;color:var(--muted);border:1px solid var(--line)}
+.links a{background:#fff!important;color:var(--teal)!important;border:1px solid var(--line);border-radius:999px}
+footer{background:transparent!important;color:var(--muted)}
+footer button{border-color:var(--line);color:var(--teal);border-radius:999px;background:#fff}
+@media (max-width:720px){.hero{grid-template-columns:1fr;grid-template-areas:"logo" "title" "school" "names";text-align:center;row-gap:8px}.hero-logo{margin:0 auto 6px}.hero h1{font-size:36px}.hero-names{justify-content:center}.extras{grid-template-columns:1fr 1fr;gap:10px}.x-btn{padding:14px 12px}.x-btn b{font-size:16px}.x-btn small{font-size:12.5px}.stat{text-align:center}.stat b{font-size:36px}.main-btn:after{top:18px;left:16px;width:40px;height:40px}.main-btn .mb-head h2{font-size:23px}}
 </style>
 </head>
 <body>
@@ -166,6 +219,7 @@ a.x-btn{display:block;text-decoration:none}
   <div class="school" id="school"></div>
   <h1 id="title">ملف نواتج التعلم</h1>
   <span class="year" id="year"></span>
+  <div class="hero-names"><span>مسؤولة ملف نواتج التعلم: <b>ناهد علي عطار</b></span><span>مديرة المدرسة: <b>هناء إبراهيم بسيوني</b></span><span class="yr">العام الدراسي ١٤٤٨هـ</span></div>
 </header>
 <div class="wrap"><div id="app"></div></div>
 <footer id="foot"></footer>
@@ -184,38 +238,31 @@ const CONFIG = {
 
 
   // رابط تطبيق الويب من Apps Script (يجعل اللوحة تعرض الملفات وتتحدث تلقائياً)
-  scriptUrl: '',
+  scriptUrl: 'https://script.google.com/macros/s/AKfycbwVVS6Mdci5Tb_cnyZtvK_nMoXw--cT6DDg1ddso8k8co0JNA2nsOAbAeRf4awoGxdw/exec',
 
-  // رابط مشاركة مجلد «ملف نواتج التعلم» كاملاً في OneDrive
-  extrasUrl: 'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgDIOouxIL1ZSq_JGX63zCqjAS2W7TeGTU5ZCEVVantakdY?e=7Exd4r',   // مجلد «الأقسام المساندة»
-  rootUrl: 'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgDq2jk5bI44RJNEzgEiSAeEAesNMuL8rtMpmm7O_JVRmnc?e=2OSyXO',
-
-  // ملفات OneDrive: ضعي رابط مشاركة كل مجلد في خانة folder (أو url داخل sub) فيفتح الزر المجلد مباشرة.
-  // القسم الذي يبقى بلا رابط لا يظهر في اللوحة.
   // الأقسام: main = زر رئيسي كبير. folder = رابط المجلد في الدرايف (اختياري إذا وُضع scriptUrl،
   // فاللوحة تجد المجلد باسمه تلقائياً عبر match). القسم الذي لا يوجد له مجلد يختفي تلقائياً.
   sections: [
-    { key:'achievement', main:true, icon:'chart', title:'نتائج التحصيل الدراسي', match:'التحصيل الدراسي',
-      folder:'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgCubbd7Pn1EQ5lxC5a2eaghAS6ULRZu9qGqL4FSwfjjG_w?e=0xiQDd',
-      sub:[ {title:'الفصل الدراسي الأول ١٤٤٨هـ', url:'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgD_DooqC9HlSKvHg67RYjD7AUkz0YfZO-CEqp5I8Exp4qs?e=88UrMk'}, {title:'الفصل الدراسي الثاني', url:'', soon:'يبدأ لاحقاً'} ],
-      desc:'تحليل الاختبارات بأنواعها (تشخيصي، فترة أولى، فترة ثانية، نهائي) والخطط العلاجية والإثرائية وشواهد تطبيقها — لكل معلمة.',
+    { key:'achievement', main:true, icon:'chart', title:'نتائج التحصيل الدراسي', match:'الفصل الدراسي الأول', folder:'',
+      desc:'الفصل الدراسي الأول ١٤٤٨هـ — تحليل الاختبارات (تشخيصي، فترة أولى، فترة ثانية، نهائي) والخطط العلاجية والإثرائية وشواهد تطبيقها لكل مادة.',
       view:'teachers' },
-    { key:'qudrat', main:true, gold:true, icon:'target', title:'القدرات والتحصيلي', match:'القدرات والتحصيلي',
-      folder:'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgB_Cd9Er_CIR4efmAWgv3BqASiN8oMWOnzNGNV4BoHQI0g?e=sBKNLc',
-      sub:[ {title:'القدرات', url:'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgCdXfFG_eo8RLMQasysq1naATsT2kwE900iXLu-2VNYuaA?e=yWQR1x'}, {title:'التحصيلي', url:'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgCbXNiiX1qPSrhKPeXGYlfjAYLm4gyDRQ55asM-NRmLz-E?e=gt63l8'} ],
+    { key:'achievement2', main:true, icon:'chart', title:'نتائج التحصيل الدراسي — الفصل الثاني', match:'الفصل الدراسي الثاني', folder:'',
+      desc:'الفصل الدراسي الثاني — تحليل الاختبارات والخطط العلاجية والإثرائية لكل مادة.',
+      view:'teachers' },
+    { key:'qudrat', main:true, gold:true, icon:'target', title:'القدرات والتحصيلي', match:'القدرات والتحصيلي', folder:'',
       desc:'خطة الاستعداد لاختبار القدرات، الحصص والاختبارات التدريبية وتحليل نتائجها.',
       note:'اختبار التحصيلي: يبدأ توثيقه في العام الدراسي القادم بإذن الله.',
       emptyLabels:{'التحصيلي':'العام القادم'},
       links:[ {title:'اختبارات القدرات الكمي الإلكترونية', url:'https://nahidattar2.github.io/qudrat/links.html'} ] },
 
-    { key:'intro', icon:'users', title:'التعريف بالملف', match:'التعريف بالملف', folder:'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgAUmflpZZ1fTaCpKAXoQ-uXAXg4lcwpFieMvJUHTbEx7_g?e=9fW98U', desc:'نبذة عن ملف نواتج التعلم ومحتوياته.' },
-    { key:'committee', icon:'users', title:'لجنة التحصيل', match:'لجنة التحصيل', folder:'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgBobdTN-9S5Q5iawWOak5iCAUV7MPRX9nP-hXI9pyOyl-0?e=G36ccq', desc:'قرار تشكيل اللجنة ومهامها ومحاضر اجتماعاتها.' },
-    { key:'baseline', icon:'history', title:'نتائج العام السابق', match:'العام السابق', folder:'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgA0bgzysUbUSoNboCQdGlgkAQuGR_BUTn86rsoB8YkX8Js?e=kZRE1Y', desc:'تحليل نتائج العام الماضي ونقاط القوة والضعف.' },
-    { key:'plans', icon:'spark', title:'الخطط والبرامج', match:'الخطط والبرامج', folder:'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgCbvTB-rlpTS710aM7mGgmPAWL14ncQ-It1wdRmeUepMcM?e=5YRJjA', desc:'الخطة الإجرائية والبرامج الداعمة لرفع التحصيل.' },
-    { key:'groups', icon:'star', title:'فئات المتابعة', match:'فئات المتابعة', folder:'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgBtT1j5FaXpS5pHm5erfl5lAYab0o_-_pFUZI7vymGI_Bo?e=OBq0CL', desc:'المتفوقات والموهوبات والمتأخرات دراسياً والدعم المقدم لهن.' },
-    { key:'parents', icon:'home', title:'التواصل مع أولياء الأمور', match:'أولياء الأمور', folder:'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgD2UMj_gSAITbh12oC4booUAcmDj6H4ZLRh4a2D8E_Yfnc?e=aCweLR', desc:'إشعارات المستوى ومجالس الأمهات والاستبانات.' },
-    { key:'plc', icon:'spark', title:'مجتمعات التعلم', match:'مجتمعات التعلم', folder:'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgBsyNEgVZSDSKd5G38QSI1lAfUI1i-Hcd3giJz1rYJQE8k?e=LbTdyw', desc:'مجتمعات التعلم المهنية ولقاءاتها.' },
-    { key:'thanks', icon:'award', title:'شهادات الشكر', match:'شهادات', folder:'https://mkhgirls-my.sharepoint.com/:f:/g/personal/t514068_mkhg_moe_gov_sa/IgBbZDwimE1YS7UPLPzfq4_6ARAW_EOOjGtlskhdfVGUumM?e=oSEUa4', desc:'شهادات الشكر والتميز المرتبطة بنواتج التعلم.' }
+    { key:'intro', icon:'users', title:'التعريف بالملف', match:'التعريف بالملف', folder:'', desc:'نبذة عن ملف نواتج التعلم ومحتوياته.' },
+    { key:'committee', icon:'users', title:'لجنة التحصيل', match:'لجنة التحصيل', folder:'', desc:'قرار تشكيل اللجنة ومهامها ومحاضر اجتماعاتها.' },
+    { key:'baseline', icon:'history', title:'نتائج العام السابق', match:'العام السابق', folder:'', desc:'تحليل نتائج العام الماضي ونقاط القوة والضعف.' },
+    { key:'plans', icon:'spark', title:'الخطط والبرامج', match:'الخطط والبرامج', folder:'', desc:'الخطة الإجرائية والبرامج الداعمة لرفع التحصيل.' },
+    { key:'groups', icon:'star', title:'فئات المتابعة', match:'فئات المتابعة', folder:'', desc:'المتفوقات والموهوبات والمتأخرات دراسياً والدعم المقدم لهن.' },
+    { key:'parents', icon:'home', title:'التواصل مع أولياء الأمور', match:'أولياء الأمور', folder:'', desc:'إشعارات المستوى ومجالس الأمهات والاستبانات.' },
+    { key:'plc', icon:'spark', title:'مجتمعات التعلم', match:'مجتمعات التعلم', folder:'', desc:'مجتمعات التعلم المهنية ولقاءاتها.' },
+    { key:'thanks', icon:'award', title:'شهادات الشكر', match:'شهادات', folder:'', desc:'شهادات الشكر والتميز المرتبطة بنواتج التعلم.' }
   ]
 };
 /* ================================================================ */
@@ -297,7 +344,6 @@ function renderBody(node,depth,sec){
 
 /* ---------- الصفحات ---------- */
 function home(){
-  if(MODE==='links'){homeLinks();return}
   let h='';
   if(MODE==='demo')h+='<div class="banner">عرض تجريبي ببيانات نموذجية — بعد وضع رابط Apps Script تظهر ملفات الدرايف الفعلية وتتحدث تلقائياً.</div>';
   if(ERR)h+=`<div class="banner err">${esc(ERR)}</div>`;
@@ -306,7 +352,7 @@ function home(){
     const ach=vis.find(x=>x.s.view==='teachers');const st=ach?teacherStats(ach.node):null;
     const total=countFiles(ROOT),last=lastDate(ROOT);
     h+=`<div class="stats">
-      <div class="stat"><b>${st?st.rows.length:'—'}</b><span>معلمة مشاركة</span></div>
+      <div class="stat"><b>${st?st.rows.length:'—'}</b><span>مادة / معلمة</span></div>
       <div class="stat"><b>${total}</b><span>شاهد وملف</span></div>
       <div class="stat"><b>${st?st.pct+'%':'—'}</b><span>نسبة اكتمال التحصيل</span></div>
       <div class="stat"><b style="font-size:19px;padding:4px 0">${last?fmt(last):'—'}</b><span>آخر إضافة</span></div></div>`;
@@ -315,7 +361,7 @@ function home(){
   h+='<div class="main-grid">'+mains.map(({s,node})=>{
     let meta='';
     if(node){const c=countFiles(node);
-      if(s.view==='teachers'){const st=teacherStats(node);meta=`<div class="meta"><span class="pill">${st.rows.length} معلمات</span><span class="pill ${st.pct===100?'ok':'wait'}">اكتمال ${st.pct}%</span><span class="pill">${c} ملف</span></div><div class="bar"><i style="width:${st.pct}%"></i></div>`}
+      if(s.view==='teachers'){const st=teacherStats(node);meta=`<div class="meta"><span class="pill">${st.rows.length} مواد</span><span class="pill ${st.pct===100?'ok':'wait'}">اكتمال ${st.pct}%</span><span class="pill">${c} ملف</span></div><div class="bar"><i style="width:${st.pct}%"></i></div>`}
       else meta=`<div class="meta"><span class="pill">${c} ملف</span>${s.note?'<span class="pill wait">التحصيلي: العام القادم</span>':''}</div>`;}
     return`<div role="button" tabindex="0" class="main-btn ${s.gold?'gold':''}" onclick="go('${s.key}')"><span class="mb-head"><span class="ico">${ico(s.icon)}</span><h2>${esc(s.title)}</h2></span><span class="mb-body"><p>${esc(s.desc)}</p>${meta}</span></div>`}).join('')+'</div>';
   if(extras.length){h+='<h3 class="sec">أقسام مساندة</h3><div class="extras">'+extras.map(({s,node})=>{const c=node?countFiles(node):null;
@@ -346,9 +392,9 @@ function sectionView(s,tIdx){
   h+=`${driveLink(node.url)}</div><h2>${esc(s.title)}</h2><p class="desc">${esc(s.desc)}</p>`;
   if(s.view==='teachers'&&node.folders.length){
     const st=teacherStats(node);
-    h+=`<div class="tabs"><button class="tab on" data-t="cards" onclick="tab(this)">المعلمات (${st.rows.length})</button>${st.cols.length?'<button class="tab" data-t="matrix" onclick="tab(this)">لوحة الاكتمال</button>':''}</div>`;
+    h+=`<div class="tabs"><button class="tab on" data-t="cards" onclick="tab(this)">المواد (${st.rows.length})</button>${st.cols.length?'<button class="tab" data-t="matrix" onclick="tab(this)">لوحة الاكتمال</button>':''}</div>`;
     h+=`<div id="tab-cards" class="t-grid">${st.rows.map((r,i)=>`<div role="button" tabindex="0" class="t-card" onclick="go('${s.key}-t${i}')"><b>${esc(clean(r.t.name))}</b><div class="row"><span>${countFiles(r.t)} ملف</span><span>${r.pct}%</span></div><div class="bar"><i style="width:${r.pct}%"></i></div><div class="dots">${st.cols.map(c=>`<span class="dot ${r.L[c]?'y':'n'}">${esc(c)}</span>`).join('')}</div></div>`).join('')}</div>`;
-    if(st.cols.length)h+=`<div id="tab-matrix" style="display:none"><div class="matrix"><table><tr><th>المعلمة</th>${st.cols.map(c=>`<th>${esc(c)}</th>`).join('')}<th>الاكتمال</th></tr>${st.rows.map((r,i)=>`<tr><td><a href="#${s.key}-t${i}">${esc(clean(r.t.name))}</a></td>${st.cols.map(c=>`<td>${r.L[c]?`<span class="yes">✓ ${r.L[c]}</span>`:'<span class="no">—</span>'}</td>`).join('')}<td><b>${r.pct}%</b></td></tr>`).join('')}</table></div><div class="legend">✓ = تم رفع الشاهد (والرقم عدد الملفات) · — = لم يُرفع بعد. تتحدث تلقائياً كلما أضافت معلمة ملفاً.</div></div>`;
+    if(st.cols.length)h+=`<div id="tab-matrix" style="display:none"><div class="matrix"><table><tr><th>المادة</th>${st.cols.map(c=>`<th>${esc(c)}</th>`).join('')}<th>الاكتمال</th></tr>${st.rows.map((r,i)=>`<tr><td><a href="#${s.key}-t${i}">${esc(clean(r.t.name))}</a></td>${st.cols.map(c=>`<td>${r.L[c]?`<span class="yes">✓ ${r.L[c]}</span>`:'<span class="no">—</span>'}</td>`).join('')}<td><b>${r.pct}%</b></td></tr>`).join('')}</table></div><div class="legend">✓ = تم رفع الشاهد (والرقم عدد الملفات) · — = لم يُرفع بعد. تتحدث تلقائياً كلما أضافت معلمة ملفاً.</div></div>`;
   } else h+=renderBody(node,0,s);
   h+=extrasOf(s)+'</div>';
   app.innerHTML=h;
@@ -380,29 +426,16 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')pvClose();if(e.key==
 function go(h){if(location.hash.slice(1)===h)route();else location.hash=h;window.scrollTo({top:0,behavior:'smooth'})}
 function route(){const h=decodeURIComponent(location.hash.slice(1));
   const m=h.match(/^([a-z0-9]+)(?:-t(\d+))?$/);const s=m&&SECS.find(x=>x.key===m[1]);
-  if(s&&MODE!=='links')sectionView(s,m[2]!=null?+m[2]:null);else home();}
+  if(s)sectionView(s,m[2]!=null?+m[2]:null);else home();}
 window.addEventListener('hashchange',route);
 
 /* ---------- التحميل ---------- */
-const hasLink=s=>(s.folder&&!s.fid)||(s.sub||[]).some(u=>u.url);
-function homeLinks(){
-  const vis=SECS.filter(hasLink);
-  const btn=(t,u,cls,soon)=>u?`<a class="go ${cls||''}" href="${esc(u)}" target="_blank" rel="noopener">${esc(t)} ↗</a>`:`<span class="go off">${esc(t)}${soon?' — '+esc(soon):''}</span>`;
-  let h='<div class="main-grid">'+vis.filter(s=>s.main).map(s=>{const sub=(s.sub||[]).filter(u=>u.url||u.soon);
-    return`<div class="main-btn ${s.gold?'gold':''}" style="cursor:default"><span class="mb-head"><span class="ico">${ico(s.icon)}</span><h2>${esc(s.title)}</h2></span><span class="mb-body"><p>${esc(s.desc)}</p><div class="gos">${sub.map(u=>btn(u.title,u.url,'',u.soon)).join('')}${s.folder?btn(sub.length?'المجلد كاملاً':'فتح المجلد',s.folder,sub.length?'ghost':''):''}${(s.links||[]).map(l=>btn(l.title,l.url,'ghost')).join('')}</div></span></div>`}).join('')+'</div>';
-  const ex=vis.filter(s=>!s.main&&s.folder);
-  if(ex.length)h+=`<h3 class="sec">الأقسام المساندة${CONFIG.extrasUrl?`<a class="sec-link" href="${esc(CONFIG.extrasUrl)}" target="_blank" rel="noopener">فتح المجلد ↗</a>`:''}</h3><div class="extras">`+ex.map(s=>`<a class="x-btn" href="${esc(s.folder)}" target="_blank" rel="noopener"><b>${esc(s.title)}</b><small>${esc(s.desc)}</small><span class="go sm">فتح المجلد ↗</span></a>`).join('')+'</div>';
-  if(CONFIG.rootUrl)h+=`<div style="text-align:center;margin-top:24px"><a class="go ${vis.length?'ghost':''}" style="font-size:17px;padding:13px 26px" href="${esc(CONFIG.rootUrl)}" target="_blank" rel="noopener">فتح ملف نواتج التعلم كاملاً ↗</a></div>`;
-  h+='<p class="legend" style="text-align:center;margin-top:22px">تفتح الأزرار مجلدات OneDrive مباشرة، ويظهر فيها كل ملف جديد فور إضافته.</p>';
-  app.innerHTML=h;
-}
 async function load(fresh){
   if(CONFIG.scriptUrl){
     app.innerHTML='<div class="panel" style="text-align:center;color:#66767c">جارٍ تحميل أحدث الملفات من الدرايف…</div>';
     try{const r=await fetch(CONFIG.scriptUrl+(fresh?'?fresh=1':''));const j=await r.json();ROOT=j.tree;UPDATED=j.updated;MODE='live';ERR=''}
     catch(e){ERR='تعذّر الاتصال بالدرايف الآن — تُعرض روابط المجلدات مباشرة.';MODE=SECS.some(s=>s.fid)?'embed':'demo';if(MODE==='demo')ROOT=demo()}
   } else if(SECS.some(s=>s.fid))MODE='embed';
-  else if(CONFIG.rootUrl||SECS.some(hasLink))MODE='links';
   else{MODE='demo';ROOT=demo()}
   for(const k in BYID)delete BYID[k];if(ROOT)index(ROOT);
   foot();route();
