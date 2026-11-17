@@ -243,7 +243,7 @@ const CONFIG = {
   // الأقسام: main = زر رئيسي كبير. folder = رابط المجلد في الدرايف (اختياري إذا وُضع scriptUrl،
   // فاللوحة تجد المجلد باسمه تلقائياً عبر match). القسم الذي لا يوجد له مجلد يختفي تلقائياً.
   sections: [
-    { key:'achievement', main:true, icon:'chart', title:'نتائج التحصيل الدراسي', match:'الفصل الدراسي الأول', folder:'',
+    { key:'achievement', main:true, icon:'chart', title:'نتائج التحصيل الدراسي', match:['الفصل الدراسي الأول','الفصل الأول','الفصل الدراسي الاول','نتائج التحصيل الدراسي','التحصيل الدراسي'], folder:'',
       desc:'الفصل الدراسي الأول ١٤٤٨هـ — تحليل الاختبارات (تشخيصي، فترة أولى، فترة ثانية، نهائي) والخطط العلاجية والإثرائية وشواهد تطبيقها لكل مادة.',
       view:'teachers' },
     { key:'achievement2', main:true, icon:'chart', title:'نتائج التحصيل الدراسي — الفصل الثاني', match:'الفصل الدراسي الثاني', folder:'',
@@ -281,7 +281,7 @@ const ico=k=>`<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]||ICONS.char
 const app=document.getElementById('app');
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clean=n=>{const c=String(n).replace(/^[\s\d٠-٩]+[-–.)\s]+/,'').trim();return c||n};
-const norm=s=>clean(s).replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ');
+const norm=s=>clean(String(s).replace(/[\u200B-\u200F\u202A-\u202E\u2066-\u2069\u0640\uFEFF\u00A0]/g,' ')).replace(/[أإآ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ');
 const fid=l=>{if(!l)return'';const m=l.match(/folders\/([\w-]+)/)||l.match(/[?&]id=([\w-]+)/);return m?m[1]:(/^[\w-]{15,}$/.test(l)?l:'')};
 const SECS=CONFIG.sections.map(s=>({...s,fid:fid(s.folder)}));
 let MODE='demo',ROOT=null,UPDATED=null,ERR='';
@@ -293,12 +293,17 @@ function countFiles(n){return n.files.length+n.folders.reduce((a,f)=>a+countFile
 function lastDate(n){let d=n.files.reduce((m,f)=>f.date>m?f.date:m,'');n.folders.forEach(f=>{const x=lastDate(f);if(x>d)d=x});return d}
 function allFiles(n,path=[]){let r=n.files.map(f=>({...f,path}));n.folders.forEach(f=>r=r.concat(allFiles(f,path.concat(clean(f.name)))));return r}
 function leaves(n){return n.folders.length?n.folders.flatMap(leaves):[{name:clean(n.name),n:n.files.length}]}
+function findOne(q){const queue=[...ROOT.folders];q=norm(q).replace(/\s+/g,'');
+  while(queue.length){const f=queue.shift();if(norm(f.name).replace(/\s+/g,'').includes(q))return f;queue.push(...f.folders)}return null}
 function findSec(s){
   if(!ROOT)return null;
   if(s.fid&&BYID[s.fid])return BYID[s.fid];
-  const q=norm(s.match||s.title),queue=[...ROOT.folders];
-  while(queue.length){const f=queue.shift();if(norm(f.name).includes(q))return f;queue.push(...f.folders)}
-  return null;
+  const qs=[].concat(s.match||s.title);let f=null;
+  for(const q of qs){f=findOne(q);if(f)break}
+  if(f&&s.view==='teachers'){ // إن كان بداخله مجلد فصل واحد فقط ننزل إليه مباشرة
+    while(f.folders.length===1&&/فصل/.test(norm(f.folders[0].name))&&!f.files.length)f=f.folders[0];
+  }
+  return f;
 }
 function teacherStats(sec){
   const teachers=sec.folders;const cols=[];
