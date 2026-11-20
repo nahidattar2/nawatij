@@ -105,6 +105,20 @@ footer{margin-top:30px;border-top:1.5px solid #d8ccf4;padding-top:16px;display:f
 .t-card .row{display:flex;justify-content:space-between;color:var(--muted);font-size:14.5px;margin-top:4px}
 .bar{height:8px;background:#ebe7f3;border-radius:99px;overflow:hidden;margin-top:10px}
 .bar i{display:block;height:100%;background:linear-gradient(90deg,#5b2fc0,var(--teal));border-radius:99px}
+.stp{border:1.5px solid var(--line);border-radius:16px;padding:16px;margin:4px 0 18px;background:linear-gradient(180deg,#fff,#faf7ff)}
+.st-h{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.st-h h3{margin:0;font-size:19px;font-weight:800;color:#4a22a3}.st-demo{font-size:12px;background:#fff3d6;color:#8a5a00;border-radius:999px;padding:2px 10px}
+.st-chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.st-chip{font-family:inherit;border:1.5px solid #d8ccf4;background:#fff;color:#4a22a3;border-radius:999px;padding:4px 14px;font-size:14px;font-weight:700;cursor:pointer}.st-chip.on{background:#4a22a3;color:#fff;border-color:#4a22a3}.st-chip:disabled{opacity:.5;cursor:default}.st-chip small{font-size:11px}
+.st-k{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.st-k div{background:#fff;border:1px solid #e4def5;border-radius:12px;text-align:center;padding:8px 4px}.st-k b{display:block;font-size:22px;font-weight:800;color:#4a22a3}.st-k b.g{color:#1f9d6a}.st-k b.r{color:#c62828}.st-k span{font-size:12.5px;color:#5d5a72}.st-k small{display:block;font-size:11.5px;font-weight:700}.st-k .st-up{color:#1f9d6a}.st-k .st-dn{color:#c62828}
+.st-g{display:grid;grid-template-columns:200px 1fr;gap:16px;margin-top:14px;align-items:center}
+.st-d{display:flex;flex-direction:column;align-items:center;gap:8px}.dn{width:150px;height:150px;border-radius:50%;display:grid;place-items:center}.dn span{width:96px;height:96px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center;font-size:12px;color:#5d5a72;line-height:1.2}.dn b{display:block;font-size:24px;color:#4a22a3}
+.st-lg{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;font-size:12.5px}.st-lg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-left:4px}
+.st-cap{font-size:13px;color:#8a87a0;margin-bottom:4px}.st-row{display:grid;grid-template-columns:110px 1fr 54px;gap:8px;align-items:center;margin:6px 0}.st-n{font-size:14px;font-weight:700}.st-bar{display:flex;height:16px;border-radius:8px;overflow:hidden;background:#eee}.st-bar i{display:block;height:100%}.st-a{font-size:13.5px;font-weight:800;color:#4a22a3}
+.st-ins{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.st-ins span{background:#f3effc;border-radius:10px;padding:6px 12px;font-size:13.5px}
+@media(max-width:700px){.st-k{grid-template-columns:repeat(2,1fr)}.st-k div:first-child{grid-column:span 2}.st-g{grid-template-columns:1fr}.st-row{grid-template-columns:86px 1fr 48px}.st-n{font-size:12.5px}}
+.st-empty{color:#8a87a0;font-size:14px;padding:10px 0}.st-note{font-size:13px;color:#5d5a72;margin:-4px 0 8px}
+.st-k.k4{grid-template-columns:repeat(4,1fr)}.st-row.pl .st-n small{display:block;font-size:11px;color:#8a87a0;font-weight:500}
+.st-tr{margin-top:14px}.st-trb{display:flex;gap:14px;align-items:flex-end;height:130px;border-bottom:1.5px solid #e4def5;padding:0 6px}.st-trb div{flex:1;max-width:90px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px}.st-trb i{display:block;width:60%;background:#cbbcf2;border-radius:6px 6px 0 0}.st-trb .on i{background:#4a22a3}.st-trb b{font-size:13px;color:#4a22a3}.st-trb span{font-size:12px;color:#5d5a72;white-space:nowrap;margin-bottom:-22px}.st-tr{padding-bottom:24px}
+@media(max-width:700px){.st-k.k4{grid-template-columns:repeat(2,1fr)}.st-k.k4 div:first-child{grid-column:auto}}
 .big-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.big-row.sm{margin-top:12px;gap:8px}
 .big-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:10px}
 .big-btn{display:flex;align-items:center;gap:12px;cursor:pointer;border-radius:14px;padding:16px 18px;background:linear-gradient(135deg,#5a2ec0,#4a22a3);color:#fff;box-shadow:0 6px 16px rgba(74,34,163,.22);transition:transform .15s}
@@ -319,6 +333,8 @@ const CONFIG = {
 
 
   // رابط تطبيق الويب من Apps Script (يجعل اللوحة تعرض الملفات وتتحدث تلقائياً)
+  statsUrl: 'https://script.google.com/macros/s/AKfycbzsP_TgAj852n0P5ocWo8rg08w5xNAkRzfRI90wo2dyhJKs-eWFqNWIQh3fhhBMtgZqwQ/exec',
+  statsSheet: '1rv83kJ_mX_zoytAUynfk4EgEDKgX0aGD6pfCv1Yr438',
   scriptUrl: 'https://script.google.com/macros/s/AKfycbwVVS6Mdci5Tb_cnyZtvK_nMoXw--cT6DDg1ddso8k8co0JNA2nsOAbAeRf4awoGxdw/exec',
 
   // الأقسام: main = زر رئيسي كبير. folder = رابط المجلد في الدرايف (اختياري إذا وُضع scriptUrl،
@@ -511,20 +527,21 @@ function sectionView(s,tIdx,sub){
   if(tIdx!=null){
     const t=node.folders[tIdx];if(!t){go(s.key);return}
     const S=subjStruct(t),base=s.key+'-t'+tIdx,T=esc(clean(t.name));
+    const SR=(STATS||[]).filter(r=>isAch(r)&&subjMatch(t.name,r.sub)),PR=(PLANS||[]).filter(r=>!/قدرات/.test(r.sec)&&subjMatch(t.name,r.sub));
     const back=(to,txt)=>`<div class="panel"><div class="topbar"><button class="back" onclick="go('${to}')">→ ${txt}</button>`;
     const list=fs=>fs.length?`<div class="flist">${fs.slice().sort((x,y)=>(y.date||'').localeCompare(x.date||'')).map(f=>fileRow(f)).join('')}</div>`:'<div class="wait-txt">⏳ قيد الاستكمال</div>';
-    if(sub==='p'){app.innerHTML=back(base,T)+`${driveLink(S.P&&S.P.url)}</div><h2>الخطط العلاجية والإثرائية</h2><p class="desc">${T}</p>${list(S.plans)}</div>`;return}
+    if(sub==='p'){app.innerHTML=back(base,T)+`${driveLink(S.P&&S.P.url)}</div><h2>الخطط العلاجية والإثرائية</h2><p class="desc">${T}</p>${plansBox('إحصاءات تنفيذ الخطط العلاجية',PR)}${list(S.plans)}</div>`;return}
     if(sub&&sub[0]==='a'&&sub.length>1){const x=S.tests[+sub.slice(1)];if(!x){go(base+'-a');return}
-      app.innerHTML=back(base+'-a','تحليل الاختبارات')+`${driveLink(x.folder&&x.folder.url)}</div><h2>تحليل اختبار ${x.t==='النهائي'?'النهائي':x.t}</h2><p class="desc">${T}</p>${list(x.files)}</div>`;return}
-    if(sub==='a'){app.innerHTML=back(base,T)+`${driveLink(S.A&&S.A.url)}</div><h2>تحليل الاختبارات</h2><p class="desc">${T}</p><div class="big-grid">${S.tests.map((x,k)=>bigBtn(base+'-a'+k,x.files.length?'✅':'⏳',x.t,x.files.length?x.files.length+' ملف':'قيد الاستكمال',x.files.length>0)).join('')}</div></div>`;return}
+      app.innerHTML=back(base+'-a','تحليل الاختبارات')+`${driveLink(x.folder&&x.folder.url)}</div><h2>تحليل اختبار ${x.t==='النهائي'?'النهائي':x.t}</h2><p class="desc">${T}</p>${statsBox(base+'a'+sub.slice(1),{title:'إحصاءات '+(x.t==='النهائي'?'الاختبار النهائي':x.t)+' حسب الفصول',rows:SR,group:'cls',fixed:x.t,tests:TORD})}${list(x.files)}</div>`;return}
+    if(sub==='a'){app.innerHTML=back(base,T)+`${driveLink(S.A&&S.A.url)}</div><h2>تحليل الاختبارات</h2><p class="desc">${T}</p>${statsBox(base+'an',{title:'مقارنة نتائج الاختبارات',rows:SR,group:'cls',tests:TORD,allTests:TORD,trend:1})}<div class="big-grid">${S.tests.map((x,k)=>bigBtn(base+'-a'+k,x.files.length?'✅':'⏳',x.t,x.files.length?x.files.length+' ملف':'قيد الاستكمال',x.files.length>0)).join('')}</div></div>`;return}
     h+=`${driveLink(t.url)}</div><h2>${T}</h2>
-      <p class="desc">اكتمال الشواهد: ${S.pct}% · ${countFiles(t)} ملف</p><div class="bar" style="margin-bottom:18px"><i style="width:${S.pct}%"></i></div>${subjBtns(s.key,tIdx,S)}</div>`;
+      <p class="desc">اكتمال الشواهد: ${S.pct}% · ${countFiles(t)} ملف</p><div class="bar" style="margin-bottom:18px"><i style="width:${S.pct}%"></i></div>${statsBox(base,{title:'التقرير الإحصائي لمستويات طالبات المادة',rows:SR,group:'cls',tests:TORD,allTests:TORD,trend:1})}${subjBtns(s.key,tIdx,S)}</div>`;
     app.innerHTML=h;return;
   }
   h+=`${driveLink(node.url)}</div><h2>${esc(s.title)}</h2><p class="desc">${esc(s.desc)}</p>`;
   if(s.view==='teachers'&&node.folders.length){
     const st=teacherStats(node);
-    h+=`<div class="tabs"><button class="tab on" data-t="cards" onclick="tab(this)">المواد (${st.rows.length})</button>${st.cols.length?'<button class="tab" data-t="matrix" onclick="tab(this)">لوحة الاكتمال</button>':''}</div>`;
+    h+=statsBox(s.key,{title:"التقرير الإحصائي العام لمستويات الطالبات",rows:(STATS||[]).filter(isAch),group:"sub",allTests:TORD,tests:TORD});h+=`<div class="tabs"><button class="tab on" data-t="cards" onclick="tab(this)">المواد (${st.rows.length})</button>${st.cols.length?'<button class="tab" data-t="matrix" onclick="tab(this)">لوحة الاكتمال</button>':''}</div>`;
     h+=`<div id="tab-cards" class="t-grid">${st.rows.map((r,i)=>`<div role="button" tabindex="0" class="t-card" onclick="go('${s.key}-t${i}')"><b>${esc(clean(r.t.name))}</b><div class="row"><span>${countFiles(r.t)} ملف</span><span>${r.pct}%</span></div><div class="bar"><i style="width:${r.pct}%"></i></div></div>`).join('')}</div>`;
     if(st.cols.length)h+=`<div id="tab-matrix" style="display:none"><div class="matrix"><table><tr><th>المادة</th>${st.cols.map(c=>`<th>${esc(c)}</th>`).join('')}<th>الاكتمال</th></tr>${st.rows.map((r,i)=>`<tr><td><a href="#${s.key}-t${i}">${esc(clean(r.t.name))}</a></td>${st.cols.map(c=>`<td>${r.L[c]?`<span class="yes">✓ ${r.L[c]}</span>`:'<span class="no">—</span>'}</td>`).join('')}<td><b>${r.pct}%</b></td></tr>`).join('')}</table></div><div class="legend">✓ = تم رفع الشاهد (والرقم عدد الملفات) · — = لم يُرفع بعد. تتحدث تلقائياً كلما أضافت معلمة ملفاً.</div></div>`;
   } else h+=renderBody(node,0,s);
@@ -540,14 +557,67 @@ function qudratView(s,sub){
   const K=Q&&Q.folders.find(f=>/كمي/.test(nm(f))),L=Q&&Q.folders.find(f=>/لفظي/.test(nm(f)));
   const cnt=f=>f?countFiles(f):0;const lab=f=>cnt(f)?cnt(f)+' ملف':'قيد الاستكمال';
   const body=f=>f&&cnt(f)?renderBody(f,0,s):'<div class="wait-txt">⏳ قيد الاستكمال</div>';
-  let h;
-  if(!sub){h=top('','الرئيسية',node.url)+`<h2>${esc(s.title)}</h2><p class="desc">${esc(s.desc)}</p><div class="big-grid">${bigBtn('qudrat-q','🎯','نتائج القدرات',lab(Q),cnt(Q)>0)}${bigBtn('qudrat-t','📘','نتائج التحصيلي',cnt(T)?lab(T):'العام القادم',cnt(T)>0)}</div></div>`}
+  let h;const QR=(STATS||[]).filter(isQ);
+  if(!sub){h=top('','الرئيسية',node.url)+`<h2>${esc(s.title)}</h2><p class="desc">${esc(s.desc)}</p>${statsBox('qd',{title:'التقرير الإحصائي لنتائج القدرات',rows:QR,group:'sub',groupLabel:'قسم'})}<div class="big-grid">${bigBtn('qudrat-q','🎯','نتائج القدرات',lab(Q),cnt(Q)>0)}${bigBtn('qudrat-t','📘','نتائج التحصيلي',cnt(T)?lab(T):'العام القادم',cnt(T)>0)}</div></div>`}
   else if(sub==='q'){const rest=Q?{name:Q.name,url:Q.url,files:Q.files,folders:Q.folders.filter(f=>f!==K&&f!==L)}:null;
-    h=top('qudrat',esc(s.title),Q&&Q.url)+`<h2>نتائج القدرات</h2><div class="big-grid">${bigBtn('qudrat-qk','➗','القدرات الكمي',lab(K),cnt(K)>0)}${bigBtn('qudrat-ql','📝','القدرات اللفظي',lab(L),cnt(L)>0)}</div>${rest&&countFiles(rest)?'<div style="margin-top:18px">'+renderBody(rest,0,s)+'</div>':''}</div>`}
-  else if(sub==='qk'||sub==='ql'){const F=sub==='qk'?K:L;h=top('qudrat-q','نتائج القدرات',F&&F.url)+`<h2>القدرات ${sub==='qk'?'الكمي':'اللفظي'}</h2>${body(F)}${sub==='qk'&&s.links?extrasOf({links:s.links}):''}</div>`}
+    h=top('qudrat',esc(s.title),Q&&Q.url)+`<h2>نتائج القدرات</h2>${statsBox('qdq',{title:'نتائج القدرات: الكمي واللفظي',rows:QR,group:'sub',groupLabel:'قسم',trend:1})}<div class="big-grid">${bigBtn('qudrat-qk','➗','القدرات الكمي',lab(K),cnt(K)>0)}${bigBtn('qudrat-ql','📝','القدرات اللفظي',lab(L),cnt(L)>0)}</div>${rest&&countFiles(rest)?'<div style="margin-top:18px">'+renderBody(rest,0,s)+'</div>':''}</div>`}
+  else if(sub==='qk'||sub==='ql'){const F=sub==='qk'?K:L;h=top('qudrat-q','نتائج القدرات',F&&F.url)+`<h2>القدرات ${sub==='qk'?'الكمي':'اللفظي'}</h2>${statsBox('qd'+sub,{title:'إحصاءات القدرات '+(sub==='qk'?'الكمي':'اللفظي')+' حسب الفصول',rows:QR.filter(r=>/كمي|لفظي/.test(r.sub)?(sub==='qk'?/كمي/.test(r.sub):/لفظي/.test(r.sub)):false),group:'cls',trend:1})}${body(F)}${sub==='qk'&&s.links?extrasOf({links:s.links}):''}</div>`}
   else{h=top('qudrat',esc(s.title),T&&T.url)+`<h2>نتائج التحصيلي</h2>${T&&cnt(T)?renderBody(T,0,s):'<div class="note">اختبار التحصيلي: يبدأ توثيقه في العام الدراسي القادم بإذن الله.</div>'}</div>`}
   app.innerHTML=h;
 }
+
+/* ---------- التقارير الإحصائية (من جدول «إحصاءات ملف نواتج التعلم») ---------- */
+let STATS=null,PLANS=null,STERR=false;const PANELS={},STSEL={};
+const LV=[['ممتاز','#1f9d6a'],['جيد جدًا','#5aa9e6'],['جيد','#7a5ae0'],['مقبول','#f0a830'],['ضعيف','#e05a5a']];
+const TORD=['التشخيصي','الفترة الأولى','الفترة الثانية','النهائي'];
+const nz=v=>{const x=parseFloat(String(v==null?'':v).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)));return isNaN(x)?0:x};
+async function loadStats(){if(!CONFIG.statsUrl)return;const u=t=>CONFIG.statsUrl+'?ss='+CONFIG.statsSheet+'&tab='+encodeURIComponent(t)+'&_='+Date.now();
+  try{const [a,b]=await Promise.all([fetch(u('النتائج')).then(r=>r.json()),fetch(u('الخطط')).then(r=>r.json())]);
+    STATS=(a.rows||[]).map(r=>({sec:norm(r['القسم']||''),sub:String(r['المادة']||'').trim(),test:String(r['الاختبار']||'').trim(),cls:String(r['الفصل']||'').trim()||'الكل',n:nz(r['عدد الطالبات']),avg:nz(r['متوسط التحصيل٪']),g:LV.map(l=>nz(r[l[0]]||r[l[0].replace('ً','')])),note:r['ملاحظة']||''})).filter(r=>r.sub&&r.test&&r.n);
+    PLANS=(b.rows||[]).map(r=>({sec:norm(r['القسم']||''),sub:String(r['المادة']||'').trim(),test:String(r['الاختبار']||'').trim(),tg:nz(r['الطالبات المستهدفات']),ex:nz(r['نفّذن الخطة']),at:nz(r['عدد المحاولات']),ms:nz(r['نسبة إتقان المهارات بعد العلاج٪']),note:r['ملاحظة']||''})).filter(r=>r.sub);
+  STERR=!(a.ok&&b.ok);}catch(e){STATS=STATS||[];PLANS=PLANS||[];STERR=true}
+  if(ROOT||MODE)route();}
+const isAch=r=>/تحصيل/.test(r.sec)&&!/قدرات/.test(r.sec),isQ=r=>/قدرات/.test(r.sec);
+const subjMatch=(folderName,sub)=>{const a=norm(folderName),b=norm(sub);return!!b&&(a.startsWith(b)||a.split(/[-–]/)[0].trim()===b)};
+function testsOf(rows){const t=[...new Set(rows.map(r=>r.test))];return t.sort((a,b)=>{const i=TORD.indexOf(a),j=TORD.indexOf(b);return(i<0?99:i)-(j<0?99:j)})}
+function agg(rows){const N=rows.reduce((a,r)=>a+r.n,0);return{N,avg:N?rows.reduce((a,r)=>a+r.n*r.avg,0)/N:0,G:[0,1,2,3,4].map(i=>rows.reduce((a,r)=>a+r.g[i],0))}}
+/* cfg: {title, rows, group:'sub'|'cls', tests (اختياري), fixed (اختبار ثابت), groupLabel} */
+function statsBox(id,cfg){PANELS[id]=cfg;return`<div id="sp-${id}">${statsRender(id)}</div>`}
+function stRe(id,t){STSEL[id]=t;document.getElementById('sp-'+id).innerHTML=statsRender(id)}
+function statsRender(id){const c=PANELS[id];
+  const head=`<div class="st-h"><h3>📊 ${esc(c.title)}</h3></div>`;
+  if(STATS==null)return`<div class="stp">${head}<div class="st-empty">جارٍ تحميل الإحصاءات…</div></div>`;
+  const all=c.rows;const tests=c.tests||testsOf(all);
+  if(!all.length)return`<div class="stp">${head}<div class="st-empty">${STERR?'تعذّر تحميل الإحصاءات الآن — اضغطي «تحديث الآن» أسفل الصفحة.':'تظهر الإحصاءات هنا بعد رصد النتائج في جدول الإحصاءات.'}</div></div>`;
+  let T=c.fixed||STSEL[id];if(!T||!tests.includes(T))T=[...tests].reverse().find(t=>all.some(r=>r.test===t))||tests[0];
+  const chips=c.fixed?'':`<div class="st-chips">${(c.allTests||tests).map(t=>{const has=all.some(r=>r.test===t);return`<button class="st-chip ${t===T?'on':''}" ${has?`onclick="stRe('${id}','${t}')"`:'disabled'}>${esc(t)}${has?'':' <small>قريبًا</small>'}</button>`}).join('')}</div>`;
+  const cur=all.filter(r=>r.test===T);
+  const grpRows=c.group==='cls'?cur.filter(r=>r.cls!=='الكل'):cur.filter(r=>r.cls==='الكل');
+  const totRows=c.group==='cls'?(cur.filter(r=>r.cls==='الكل').length?cur.filter(r=>r.cls==='الكل'):grpRows):grpRows;
+  const A=agg(totRows);if(!A.N)return`<div class="stp">${head}${chips}<div class="st-empty">لا توجد أرقام لهذا الاختبار بعد.</div></div>`;
+  const ti=tests.indexOf(T),prev=ti>0?tests.slice(0,ti).reverse().find(t=>all.some(r=>r.test===t)):null;let gain='';
+  if(prev){const keys=new Set(totRows.map(r=>r.sub));let p=all.filter(r=>r.test===prev&&r.cls==='الكل'&&keys.has(r.sub));if(!p.length)p=all.filter(r=>r.test===prev&&keys.has(r.sub));const P=agg(p);if(P.N){const d=A.avg-P.avg;gain=`<small class="${d>=0?'st-up':'st-dn'}">${d>=0?'▲':'▼'} ${Math.abs(d).toFixed(1)}٪ عن ${esc(prev)}</small>`}}
+  const top=Math.round((A.G[0]+A.G[1])/A.N*100),low=Math.round(A.G[4]/A.N*100);
+  let deg=0;const gs=A.G.reduce((a,b)=>a+b,0)||1;const donut='conic-gradient('+A.G.map((g,i)=>{const a=deg;deg+=g/gs*360;return`${LV[i][1]} ${a}deg ${deg}deg`}).join(',')+')';
+  const name=r=>c.group==='cls'?r.cls:r.sub;
+  const bars=grpRows.map(r=>`<div class="st-row"><div class="st-n">${esc(name(r))}</div><div class="st-bar">${r.g.map((g,i)=>g?`<i style="width:${g/(r.g.reduce((a,b)=>a+b,0)||1)*100}%;background:${LV[i][1]}" title="${LV[i][0]}: ${g}"></i>`:'').join('')}</div><div class="st-a">${r.avg.toFixed(1)}٪</div></div>`).join('');
+  let ins='';if(grpRows.length>1){const so=grpRows.slice().sort((a,b)=>b.avg-a.avg);ins=`<div class="st-ins"><span>⭐ الأعلى تحصيلًا: <b>${esc(name(so[0]))}</b> (${so[0].avg.toFixed(1)}٪)</span><span>⚠️ الأكثر حاجة للدعم: <b>${esc(name(so[so.length-1]))}</b> (${so[so.length-1].avg.toFixed(1)}٪)</span></div>`}
+  let trend='';const tt=tests.filter(t=>all.some(r=>r.test===t));
+  if(c.trend&&tt.length>1){trend=`<div class="st-tr"><div class="st-cap">تطور متوسط التحصيل عبر الاختبارات</div><div class="st-trb">${tt.map(t=>{const p=all.filter(r=>r.test===t&&r.cls==='الكل');const X=agg(p.length?p:all.filter(r=>r.test===t));return`<div class="${t===T?'on':''}"><b>${X.avg.toFixed(1)}٪</b><i style="height:${Math.max(6,X.avg)}%"></i><span>${esc(t)}</span></div>`}).join('')}</div></div>`}
+  const notes=[...new Set(cur.map(r=>r.note).filter(Boolean))];
+  const k1=c.group==='cls'?`<div><b>${grpRows.length||1}</b><span>فصول</span></div>`:`<div><b>${grpRows.length}</b><span>مواد</span></div>`;
+  return`<div class="stp">${head}${chips}${notes.length?`<div class="st-note">${notes.map(esc).join(' · ')}</div>`:''}
+  <div class="st-k">${k1}<div><b>${A.N}</b><span>طالبة مختبرة</span></div><div><b>${A.avg.toFixed(1)}٪</b><span>متوسط التحصيل</span>${gain}</div><div><b class="g">${top}٪</b><span>ممتاز وجيد جدًا</span></div><div><b class="r">${low}٪</b><span>بحاجة إلى علاج (ضعيف)</span></div></div>
+  <div class="st-g"><div class="st-d"><div class="dn" style="background:${donut}"><span><b>${A.avg.toFixed(0)}٪</b>المتوسط</span></div><div class="st-lg">${LV.map((l,i)=>`<span><i style="background:${l[1]}"></i>${l[0]} <b>${A.G[i]}</b></span>`).join('')}</div></div>
+  <div class="st-rows"><div class="st-cap">توزيع المستويات ومتوسط التحصيل لكل ${c.group==='cls'?'فصل':(c.groupLabel||'مادة')}</div>${bars||'<div class="st-empty">—</div>'}</div></div>${trend}${ins}</div>`}
+function plansBox(title,rows){
+  const head=`<div class="st-h"><h3>🎯 ${esc(title)}</h3></div>`;
+  if(PLANS==null)return`<div class="stp">${head}<div class="st-empty">جارٍ تحميل الإحصاءات…</div></div>`;
+  if(!rows.length)return`<div class="stp">${head}<div class="st-empty">تظهر إحصاءات تنفيذ الخطط هنا بعد رصدها في جدول الإحصاءات.</div></div>`;
+  const tg=rows.reduce((a,r)=>a+r.tg,0),ex=rows.reduce((a,r)=>a+r.ex,0),at=rows.reduce((a,r)=>a+r.at,0),ms=ex?rows.reduce((a,r)=>a+r.ms*r.ex,0)/ex:0;
+  const list=rows.map(r=>`<div class="st-row pl"><div class="st-n">${esc(r.test)}${r.note?`<small>${esc(r.note)}</small>`:''}</div><div class="st-bar"><i style="width:${r.tg?r.ex/r.tg*100:0}%;background:#7a5ae0"></i></div><div class="st-a">${r.ex}/${r.tg}</div></div>`).join('');
+  return`<div class="stp">${head}<div class="st-k k4"><div><b>${tg}</b><span>طالبة مستهدفة</span></div><div><b>${ex}</b><span>نفّذن الخطة</span><small class="st-up">${tg?Math.round(ex/tg*100):0}٪ من المستهدفات</small></div><div><b>${at}</b><span>محاولة علاجية</span></div><div><b class="g">${Math.round(ms)}٪</b><span>إتقان المهارات بعد العلاج</span></div></div>
+  <div class="st-rows" style="margin-top:12px"><div class="st-cap">نسبة تنفيذ الخطة لكل اختبار</div>${list}</div></div>`}
 function extrasOf(s){let h='';if(s.note)h+=`<div class="note">${esc(s.note)}</div>`;
   if(s.links&&s.links.length)h+='<div class="links">'+s.links.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.title)} ↗</a>`).join('')+'</div>';return h}
 function tab(b){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===b));
@@ -590,7 +660,7 @@ async function load(fresh){
   } else if(SECS.some(s=>s.fid))MODE='embed';
   else{MODE='demo';ROOT=demo()}
   for(const k in BYID)delete BYID[k];if(ROOT)index(ROOT);
-  foot();route();
+  foot();route();if(STATS==null||fresh)loadStats();
 }
 function foot(){const L=[['intro','التعريف بالملف'],['committee','لجنة التحصيل'],['baseline','نتائج العام السابق'],['plans','الخطط والبرامج']];
   document.getElementById('foot').innerHTML=`<div class="f-links">${L.map(([k,t])=>`<a onclick="go('${k}')">${t}</a>`).join('<i>|</i>')}</div><div class="f-who">مسؤولة الملف: ناهد علي عطار<i>|</i>مديرة المدرسة: هناء إبراهيم بسيوني</div>${UPDATED?`<div class="sync">آخر مزامنة: ${new Date(UPDATED).toLocaleTimeString('ar-SA',{hour:'numeric',minute:'2-digit'})}<button onclick="load(true)">تحديث الآن</button></div>`:''}`}
