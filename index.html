@@ -572,11 +572,16 @@ let STATS=null,PLANS=null,STERR=false;const PANELS={},STSEL={};
 const LV=[['ممتاز','#1f9d6a'],['جيد جدًا','#5aa9e6'],['جيد','#7a5ae0'],['مقبول','#f0a830'],['ضعيف','#e05a5a']];
 const TORD=['التشخيصي','الفترة الأولى','الفترة الثانية','النهائي'];
 const nz=v=>{const x=parseFloat(String(v==null?'':v).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)));return isNaN(x)?0:x};
-async function loadStats(){if(!CONFIG.statsUrl)return;const u=t=>CONFIG.statsUrl+'?ss='+CONFIG.statsSheet+'&tab='+encodeURIComponent(t)+'&_='+Date.now();
-  try{const [a,b]=await Promise.all([fetch(u('النتائج')).then(r=>r.json()),fetch(u('الخطط')).then(r=>r.json())]);
-    STATS=(a.rows||[]).map(r=>({sec:norm(r['القسم']||''),sub:String(r['المادة']||'').trim(),test:String(r['الاختبار']||'').trim(),cls:String(r['الفصل']||'').trim()||'الكل',n:nz(r['عدد الطالبات']),avg:nz(r['متوسط التحصيل٪']),g:LV.map(l=>nz(r[l[0]]||r[l[0].replace('ً','')])),note:r['ملاحظة']||''})).filter(r=>r.sub&&r.test&&r.n);
-    PLANS=(b.rows||[]).map(r=>({sec:norm(r['القسم']||''),sub:String(r['المادة']||'').trim(),test:String(r['الاختبار']||'').trim(),tg:nz(r['الطالبات المستهدفات']),ex:nz(r['نفّذن الخطة']),at:nz(r['عدد المحاولات']),ms:nz(r['نسبة إتقان المهارات بعد العلاج٪']),note:r['ملاحظة']||''})).filter(r=>r.sub);
-  STERR=!(a.ok&&b.ok);}catch(e){STATS=STATS||[];PLANS=PLANS||[];STERR=true}
+function gviz(sheet){return new Promise((res,rej)=>{const cb='gv'+Math.random().toString(36).slice(2);const sc=document.createElement('script');
+  const t=setTimeout(()=>{delete window[cb];sc.remove();rej('timeout')},15000);
+  window[cb]=j=>{clearTimeout(t);delete window[cb];sc.remove();try{const L=j.table.cols.map(c=>(c.label||'').trim());res(j.table.rows.map(r=>{const o={};L.forEach((k,i)=>{const c=r.c[i];o[k]=c?(c.v!=null?c.v:c.f):''});return o}))}catch(e){rej(e)}};
+  sc.onerror=()=>{clearTimeout(t);rej('err')};
+  sc.src='https://docs.google.com/spreadsheets/d/'+CONFIG.statsSheet+'/gviz/tq?headers=1&sheet='+encodeURIComponent(sheet)+'&tqx=responseHandler:'+cb+'&_='+Date.now();document.head.appendChild(sc)})}
+async function loadStats(){if(!CONFIG.statsSheet)return;
+  try{const [a,b]=await Promise.all([gviz('النتائج'),gviz('الخطط').catch(()=>[])]);STERR=false;
+    STATS=a.map(r=>({sec:norm(r['القسم']||''),sub:String(r['المادة']||'').trim(),test:String(r['الاختبار']||'').trim(),cls:String(r['الفصل']||'').trim()||'الكل',n:nz(r['عدد الطالبات']),avg:nz(r['متوسط التحصيل٪']),g:LV.map(l=>nz(r[l[0]]!=null&&r[l[0]]!==''?r[l[0]]:r[l[0].replace('ً','')])),note:r['ملاحظة']||''})).filter(r=>r.sub&&r.test&&r.n);
+    PLANS=b.map(r=>({sec:norm(r['القسم']||''),sub:String(r['المادة']||'').trim(),test:String(r['الاختبار']||'').trim(),tg:nz(r['الطالبات المستهدفات']),ex:nz(r['نفّذن الخطة']),at:nz(r['عدد المحاولات']),ms:nz(r['نسبة إتقان المهارات بعد العلاج٪']),note:r['ملاحظة']||''})).filter(r=>r.sub);
+  }catch(e){STATS=STATS||[];PLANS=PLANS||[];STERR=true}
   if(ROOT||MODE)route();}
 const isAch=r=>/تحصيل/.test(r.sec)&&!/قدرات/.test(r.sec),isQ=r=>/قدرات/.test(r.sec);
 const subjMatch=(folderName,sub)=>{const a=norm(folderName),b=norm(sub);return!!b&&(a.startsWith(b)||a.split(/[-–]/)[0].trim()===b)};
