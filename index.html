@@ -105,6 +105,15 @@ footer{margin-top:30px;border-top:1.5px solid #d8ccf4;padding-top:16px;display:f
 .t-card .row{display:flex;justify-content:space-between;color:var(--muted);font-size:14.5px;margin-top:4px}
 .bar{height:8px;background:#ebe7f3;border-radius:99px;overflow:hidden;margin-top:10px}
 .bar i{display:block;height:100%;background:linear-gradient(90deg,#5b2fc0,var(--teal));border-radius:99px}
+.big-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.big-row.sm{margin-top:12px;gap:8px}
+.big-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:10px}
+.big-btn{display:flex;align-items:center;gap:12px;cursor:pointer;border-radius:14px;padding:16px 18px;background:linear-gradient(135deg,#5a2ec0,#4a22a3);color:#fff;box-shadow:0 6px 16px rgba(74,34,163,.22);transition:transform .15s}
+.big-btn:hover{transform:translateY(-2px)}.big-btn:not(.ok){background:linear-gradient(135deg,#8f80bd,#7a6aae)}
+.big-btn .bi{font-size:26px;flex:none}.big-btn .bt{display:flex;flex-direction:column;flex:1;min-width:0}.big-btn b{font-size:19px;font-weight:800;color:#fff!important;line-height:1.35}.big-btn small{font-size:14px;color:#e6dcff}.big-btn .ba{font-size:26px;opacity:.8}
+.big-row.sm .big-btn{padding:10px 12px;border-radius:11px}.big-row.sm .big-btn b{font-size:15.5px}.big-row.sm .big-btn small{font-size:12.5px}.big-row.sm .bi{font-size:20px}.big-row.sm .ba{display:none}
+.flist{border:1px solid var(--line);border-radius:12px;padding:6px;background:#fff}
+@media(max-width:560px){.big-row.sm{grid-template-columns:1fr}.big-row{grid-template-columns:1fr}.big-grid{gap:10px}.big-grid .big-btn{padding:12px 10px;gap:8px}.big-grid .big-btn b{font-size:17px}.big-grid .bi{font-size:20px}.big-grid .ba{display:none}}
+.big-btn{min-width:0}.big-grid>*{min-width:0}
 .dots{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
 .dot{font-size:12.5px;border-radius:6px;padding:1px 8px}
 .dot.y{background:var(--ok-soft);color:var(--ok)}.dot.n{background:#f3f1f8;color:#a7a3b8}
@@ -321,7 +330,7 @@ const CONFIG = {
     { key:'achievement2', main:true, icon:'chart', title:'نتائج التحصيل الدراسي — الفصل الثاني', match:'الفصل الدراسي الثاني', folder:'',
       desc:'الفصل الدراسي الثاني — تحليل النتائج ومتابعة الخطط العلاجية والإثرائية',
       view:'teachers' },
-    { key:'qudrat', main:true, gold:true, icon:'target', title:'القدرات والتحصيلي', match:'القدرات والتحصيلي', folder:'',
+    { key:'qudrat', main:true, gold:true, icon:'target', title:'نتائج القدرات والتحصيلي', match:'القدرات والتحصيلي', folder:'', view:'qudrat',
       desc:'الاستعداد والاختبارات التدريبية وتحليل النتائج',
       note:'اختبار التحصيلي: يبدأ توثيقه في العام الدراسي القادم بإذن الله.',
       emptyLabels:{'التحصيلي':'العام القادم'},
@@ -391,14 +400,29 @@ function findSec(s){
   }
   return f;
 }
+const TESTS=[['التشخيصي',/تشخيص/],['الفترة الأولى',/فتر[ةه].*(اول|1|١)/],['الفترة الثانية',/فتر[ةه].*(ثاني|2|٢)/],['النهائي',/نهائ/]];
+function descF(n){return n.folders.flatMap(f=>[f].concat(descF(f)))}
+function subjStruct(t){
+  const D=descF(t);const nm=f=>norm(f.name);
+  const P=D.find(f=>/خطط|علاج/.test(nm(f)));
+  const A=D.find(f=>/تحليل/.test(nm(f)))||null;
+  const inP=f=>P&&(f===P||descF(P).includes(f));
+  const pool=(A?descF(A):[]).concat(D.filter(f=>!inP(f)));
+  const tests=TESTS.map(([t,re])=>{const fs=pool.filter(f=>re.test(nm(f))&&!inP(f));const seen=new Set();
+    const files=fs.flatMap(f=>allFiles(f)).filter(x=>!seen.has(x.id||x.url)&&seen.add(x.id||x.url));return{t,folder:fs[0]||null,files}});
+  const plans=P?allFiles(P):[];
+  const done=tests.filter(x=>x.files.length).length+(plans.length?1:0);
+  return{A,P,tests,plans,done,pct:Math.round(done/5*100)};
+}
 function teacherStats(sec){
-  const teachers=sec.folders;const cols=[];
-  teachers.forEach(t=>t.folders.flatMap(leaves).forEach(l=>{if(!cols.includes(l.name))cols.push(l.name)}));
-  const rows=teachers.map(t=>{const L={};t.folders.flatMap(leaves).forEach(l=>L[l.name]=(L[l.name]||0)+l.n);
-    const done=cols.filter(c=>L[c]>0).length;return{t,L,done,pct:cols.length?Math.round(done/cols.length*100):(countFiles(t)?100:0)}});
+  const cols=TESTS.map(x=>x[0]).concat('الخطط العلاجية');
+  const rows=sec.folders.map(t=>{const S=subjStruct(t);const L={};S.tests.forEach(x=>L[x.t]=x.files.length);L['الخطط العلاجية']=S.plans.length;return{t,S,L,done:S.done,pct:S.pct}});
   const pct=rows.length?Math.round(rows.reduce((a,r)=>a+r.pct,0)/rows.length):0;
   return{cols,rows,pct};
 }
+function bigBtn(href,ico,title,sub,ok){return`<div role="button" tabindex="0" class="big-btn ${ok?'ok':''}" onclick="event.stopPropagation();go('${href}')"><span class="bi">${ico}</span><span class="bt"><b>${title}</b><small>${sub}</small></span><span class="ba">‹</span></div>`}
+function subjBtns(key,i,S,small){const a=S.tests.filter(x=>x.files.length).length;
+  return`<div class="big-row ${small?'sm':''}">${bigBtn(key+'-t'+i+'-a','📊','تحليل الاختبارات',a+' من 4 اختبارات',a>0)}${bigBtn(key+'-t'+i+'-p','🎯','الخطط العلاجية والإثرائية',S.plans.length?S.plans.length+' ملف':'قيد الاستكمال',S.plans.length>0)}</div>`}
 
 /* ---------- عناصر مساعدة ---------- */
 function chip(t,name){t=t||'';const e=(name.split('.').pop()||'').toLowerCase();
@@ -434,7 +458,7 @@ function renderBody(node,depth,sec){
 }
 
 /* ---------- الصفحات ---------- */
-const NAV=[['','الرئيسية','home2'],['achievement','التحصيل الدراسي','bars'],['achievement2','التحصيل الدراسي — الفصل الثاني','bars'],['qudrat','القدرات والتحصيلي','tgt'],['plans','الخطط والبرامج','cal'],['committee','لجنة التحصيل','grp'],['baseline','نتائج العام السابق','hist'],['intro','التعريف بالملف','doc'],['groups','فئات المتابعة','star2'],['parents','أولياء الأمور','chat'],['plc','مجتمعات التعلم','grp'],['thanks','شهادات الشكر','award2']];
+const NAV=[['','الرئيسية','home2'],['achievement','التحصيل الدراسي','bars'],['achievement2','التحصيل الدراسي — الفصل الثاني','bars'],['qudrat','نتائج القدرات والتحصيلي','tgt'],['plans','الخطط والبرامج','cal'],['committee','لجنة التحصيل','grp'],['baseline','نتائج العام السابق','hist'],['intro','التعريف بالملف','doc'],['groups','فئات المتابعة','star2'],['parents','أولياء الأمور','chat'],['plc','مجتمعات التعلم','grp'],['thanks','شهادات الشكر','award2']];
 function navHtml(cur){return NAV.filter(([k])=>!k||(ROOT?findSec(SECS.find(x=>x.key===k)||{}):SECS.some(x=>x.key===k))).map(([k,t,i])=>`<a class="nav-i ${k===cur?'on':''}" onclick="go('${k}')">${ico(i)}<span>${esc(t)}</span></a>`).join('')}
 function setNav(cur){const n=document.getElementById('nav');if(n)n.innerHTML=navHtml(cur);const on=n&&n.querySelector('.on');if(on&&innerWidth<=860)on.scrollIntoView({inline:'center',block:'nearest'})}
 function docStats(n){const L=leaves(n).filter(l=>!/^التحصيلي$/.test(norm(l.name)));const d=L.filter(l=>l.n>0).length;return{done:d,total:L.length,p:L.length?Math.round(d/L.length*100):0}}
@@ -475,7 +499,7 @@ function search(q){const box=document.getElementById('res');q=norm(q||'');if(q.l
   const r=allFiles(ROOT).filter(f=>norm(f.name).includes(q)||norm(f.path.join(' ')).includes(q)).slice(0,60);
   box.style.display='block';box.innerHTML=r.length?r.map(f=>fileRow(f,true)).join(''):'<div class="wait-txt">لا توجد نتائج</div>';}
 
-function sectionView(s,tIdx){
+function sectionView(s,tIdx,sub){
   const node=findSec(s);
   let h=`<div class="panel"><div class="topbar"><button class="back" onclick="go('${tIdx!=null?s.key:''}')">→ ${tIdx!=null?esc(s.title):'الرئيسية'}</button>`;
   if(MODE==='embed'){
@@ -486,19 +510,42 @@ function sectionView(s,tIdx){
   if(!node){app.innerHTML=h+'</div><p>لم يُعثر على المجلد.</p></div>';return}
   if(tIdx!=null){
     const t=node.folders[tIdx];if(!t){go(s.key);return}
-    const st=teacherStats(node).rows[tIdx];
-    h+=`${driveLink(t.url)}</div><h2>${esc(clean(t.name))}</h2>
-      <p class="desc">اكتمال الشواهد: ${st.pct}% · ${countFiles(t)} ملف</p><div class="bar" style="margin-bottom:14px"><i style="width:${st.pct}%"></i></div>${renderBody(t,0,s)}</div>`;
+    const S=subjStruct(t),base=s.key+'-t'+tIdx,T=esc(clean(t.name));
+    const back=(to,txt)=>`<div class="panel"><div class="topbar"><button class="back" onclick="go('${to}')">→ ${txt}</button>`;
+    const list=fs=>fs.length?`<div class="flist">${fs.slice().sort((x,y)=>(y.date||'').localeCompare(x.date||'')).map(f=>fileRow(f)).join('')}</div>`:'<div class="wait-txt">⏳ قيد الاستكمال</div>';
+    if(sub==='p'){app.innerHTML=back(base,T)+`${driveLink(S.P&&S.P.url)}</div><h2>الخطط العلاجية والإثرائية</h2><p class="desc">${T}</p>${list(S.plans)}</div>`;return}
+    if(sub&&sub[0]==='a'&&sub.length>1){const x=S.tests[+sub.slice(1)];if(!x){go(base+'-a');return}
+      app.innerHTML=back(base+'-a','تحليل الاختبارات')+`${driveLink(x.folder&&x.folder.url)}</div><h2>تحليل اختبار ${x.t==='النهائي'?'النهائي':x.t}</h2><p class="desc">${T}</p>${list(x.files)}</div>`;return}
+    if(sub==='a'){app.innerHTML=back(base,T)+`${driveLink(S.A&&S.A.url)}</div><h2>تحليل الاختبارات</h2><p class="desc">${T}</p><div class="big-grid">${S.tests.map((x,k)=>bigBtn(base+'-a'+k,x.files.length?'✅':'⏳',x.t,x.files.length?x.files.length+' ملف':'قيد الاستكمال',x.files.length>0)).join('')}</div></div>`;return}
+    h+=`${driveLink(t.url)}</div><h2>${T}</h2>
+      <p class="desc">اكتمال الشواهد: ${S.pct}% · ${countFiles(t)} ملف</p><div class="bar" style="margin-bottom:18px"><i style="width:${S.pct}%"></i></div>${subjBtns(s.key,tIdx,S)}</div>`;
     app.innerHTML=h;return;
   }
   h+=`${driveLink(node.url)}</div><h2>${esc(s.title)}</h2><p class="desc">${esc(s.desc)}</p>`;
   if(s.view==='teachers'&&node.folders.length){
     const st=teacherStats(node);
     h+=`<div class="tabs"><button class="tab on" data-t="cards" onclick="tab(this)">المواد (${st.rows.length})</button>${st.cols.length?'<button class="tab" data-t="matrix" onclick="tab(this)">لوحة الاكتمال</button>':''}</div>`;
-    h+=`<div id="tab-cards" class="t-grid">${st.rows.map((r,i)=>`<div role="button" tabindex="0" class="t-card" onclick="go('${s.key}-t${i}')"><b>${esc(clean(r.t.name))}</b><div class="row"><span>${countFiles(r.t)} ملف</span><span>${r.pct}%</span></div><div class="bar"><i style="width:${r.pct}%"></i></div><div class="dots">${st.cols.map(c=>`<span class="dot ${r.L[c]?'y':'n'}">${esc(c)}</span>`).join('')}</div></div>`).join('')}</div>`;
+    h+=`<div id="tab-cards" class="t-grid">${st.rows.map((r,i)=>`<div role="button" tabindex="0" class="t-card" onclick="go('${s.key}-t${i}')"><b>${esc(clean(r.t.name))}</b><div class="row"><span>${countFiles(r.t)} ملف</span><span>${r.pct}%</span></div><div class="bar"><i style="width:${r.pct}%"></i></div></div>`).join('')}</div>`;
     if(st.cols.length)h+=`<div id="tab-matrix" style="display:none"><div class="matrix"><table><tr><th>المادة</th>${st.cols.map(c=>`<th>${esc(c)}</th>`).join('')}<th>الاكتمال</th></tr>${st.rows.map((r,i)=>`<tr><td><a href="#${s.key}-t${i}">${esc(clean(r.t.name))}</a></td>${st.cols.map(c=>`<td>${r.L[c]?`<span class="yes">✓ ${r.L[c]}</span>`:'<span class="no">—</span>'}</td>`).join('')}<td><b>${r.pct}%</b></td></tr>`).join('')}</table></div><div class="legend">✓ = تم رفع الشاهد (والرقم عدد الملفات) · — = لم يُرفع بعد. تتحدث تلقائياً كلما أضافت معلمة ملفاً.</div></div>`;
   } else h+=renderBody(node,0,s);
   h+=extrasOf(s)+'</div>';
+  app.innerHTML=h;
+}
+function qudratView(s,sub){
+  const node=findSec(s);const nm=f=>norm(f.name);
+  const top=(to,txt,url)=>`<div class="panel"><div class="topbar"><button class="back" onclick="go('${to}')">→ ${txt}</button>${driveLink(url)}</div>`;
+  if(!node){app.innerHTML=top('','الرئيسية','')+'<p>لم يُعثر على المجلد.</p></div>';return}
+  const Q=node.folders.find(f=>/قدرات/.test(nm(f))&&!/تحصيل/.test(nm(f)));
+  const T=node.folders.find(f=>/تحصيلي/.test(nm(f))&&!/قدرات/.test(nm(f)));
+  const K=Q&&Q.folders.find(f=>/كمي/.test(nm(f))),L=Q&&Q.folders.find(f=>/لفظي/.test(nm(f)));
+  const cnt=f=>f?countFiles(f):0;const lab=f=>cnt(f)?cnt(f)+' ملف':'قيد الاستكمال';
+  const body=f=>f&&cnt(f)?renderBody(f,0,s):'<div class="wait-txt">⏳ قيد الاستكمال</div>';
+  let h;
+  if(!sub){h=top('','الرئيسية',node.url)+`<h2>${esc(s.title)}</h2><p class="desc">${esc(s.desc)}</p><div class="big-grid">${bigBtn('qudrat-q','🎯','نتائج القدرات',lab(Q),cnt(Q)>0)}${bigBtn('qudrat-t','📘','نتائج التحصيلي',cnt(T)?lab(T):'العام القادم',cnt(T)>0)}</div></div>`}
+  else if(sub==='q'){const rest=Q?{name:Q.name,url:Q.url,files:Q.files,folders:Q.folders.filter(f=>f!==K&&f!==L)}:null;
+    h=top('qudrat',esc(s.title),Q&&Q.url)+`<h2>نتائج القدرات</h2><div class="big-grid">${bigBtn('qudrat-qk','➗','القدرات الكمي',lab(K),cnt(K)>0)}${bigBtn('qudrat-ql','📝','القدرات اللفظي',lab(L),cnt(L)>0)}</div>${rest&&countFiles(rest)?'<div style="margin-top:18px">'+renderBody(rest,0,s)+'</div>':''}</div>`}
+  else if(sub==='qk'||sub==='ql'){const F=sub==='qk'?K:L;h=top('qudrat-q','نتائج القدرات',F&&F.url)+`<h2>القدرات ${sub==='qk'?'الكمي':'اللفظي'}</h2>${body(F)}${sub==='qk'&&s.links?extrasOf({links:s.links}):''}</div>`}
+  else{h=top('qudrat',esc(s.title),T&&T.url)+`<h2>نتائج التحصيلي</h2>${T&&cnt(T)?renderBody(T,0,s):'<div class="note">اختبار التحصيلي: يبدأ توثيقه في العام الدراسي القادم بإذن الله.</div>'}</div>`}
   app.innerHTML=h;
 }
 function extrasOf(s){let h='';if(s.note)h+=`<div class="note">${esc(s.note)}</div>`;
@@ -528,9 +575,10 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')pvClose();if(e.key==
 function go(h){if(location.hash.slice(1)===h)route();else location.hash=h;window.scrollTo({top:0,behavior:'smooth'})}
 function route(){const h=decodeURIComponent(location.hash.slice(1));
   const e=EV.find(x=>x.k===h);if(e){setNav('');evView(e);return}
-  const m=h.match(/^([a-z0-9]+)(?:-t(\d+))?$/);const s=m&&SECS.find(x=>x.key===m[1]);
+  const q=h.match(/^qudrat(?:-(q[kl]?|t))?$/);if(q){const s=SECS.find(x=>x.key==='qudrat');if(s){setNav('qudrat');qudratView(s,q[1]);return}}
+  const m=h.match(/^([a-z0-9]+)(?:-t(\d+)(?:-(a\d?|p))?)?$/);const s=m&&SECS.find(x=>x.key===m[1]);
   setNav(s?s.key:'');
-  if(s)sectionView(s,m[2]!=null?+m[2]:null);else home();}
+  if(s)sectionView(s,m[2]!=null?+m[2]:null,m[3]);else home();}
 window.addEventListener('hashchange',route);
 
 /* ---------- التحميل ---------- */
