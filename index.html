@@ -119,6 +119,7 @@ footer{margin-top:30px;border-top:1.5px solid #d8ccf4;padding-top:16px;display:f
 .st-k.k4{grid-template-columns:repeat(4,1fr)}.st-row.pl .st-n small{display:block;font-size:11px;color:#8a87a0;font-weight:500}
 .st-tr{margin-top:14px}.st-trb{display:flex;gap:14px;align-items:flex-end;height:130px;border-bottom:1.5px solid #e4def5;padding:0 6px}.st-trb div{flex:1;max-width:90px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:3px}.st-trb i{display:block;width:60%;background:#cbbcf2;border-radius:6px 6px 0 0}.st-trb .on i{background:#4a22a3}.st-trb b{font-size:13px;color:#4a22a3}.st-trb span{font-size:12px;color:#5d5a72;white-space:nowrap;margin-bottom:-22px}.st-tr{padding-bottom:24px}
 @media(max-width:700px){.st-k.k4{grid-template-columns:repeat(2,1fr)}.st-k.k4 div:first-child{grid-column:auto}}
+.sup-l{display:flex;flex-wrap:wrap;gap:6px}.sup-l span{font-size:13.5px;border-radius:999px;padding:4px 12px;background:#f3f1f8;color:#8a87a0}.sup-l span.ok{background:#e3f6f2;color:#1f7d6a;font-weight:700}
 .big-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.big-row.sm{margin-top:12px;gap:8px}
 .big-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:10px}
 .big-btn{display:flex;align-items:center;gap:12px;cursor:pointer;border-radius:14px;padding:16px 18px;background:linear-gradient(135deg,#5a2ec0,#4a22a3);color:#fff;box-shadow:0 6px 16px rgba(74,34,163,.22);transition:transform .15s}
@@ -544,7 +545,7 @@ function sectionView(s,tIdx,sub){
     h+=statsBox(s.key,{title:"التقرير الإحصائي العام لمستويات الطالبات",rows:(STATS||[]).filter(isAch),group:"sub",allTests:TORD,tests:TORD});h+=`<div class="tabs"><button class="tab on" data-t="cards" onclick="tab(this)">المواد (${st.rows.length})</button>${st.cols.length?'<button class="tab" data-t="matrix" onclick="tab(this)">لوحة الاكتمال</button>':''}</div>`;
     h+=`<div id="tab-cards" class="t-grid">${st.rows.map((r,i)=>`<div role="button" tabindex="0" class="t-card" onclick="go('${s.key}-t${i}')"><b>${esc(clean(r.t.name))}</b><div class="row"><span>${countFiles(r.t)} ملف</span><span>${r.pct}%</span></div><div class="bar"><i style="width:${r.pct}%"></i></div></div>`).join('')}</div>`;
     if(st.cols.length)h+=`<div id="tab-matrix" style="display:none"><div class="matrix"><table><tr><th>المادة</th>${st.cols.map(c=>`<th>${esc(c)}</th>`).join('')}<th>الاكتمال</th></tr>${st.rows.map((r,i)=>`<tr><td><a href="#${s.key}-t${i}">${esc(clean(r.t.name))}</a></td>${st.cols.map(c=>`<td>${r.L[c]?`<span class="yes">✓ ${r.L[c]}</span>`:'<span class="no">—</span>'}</td>`).join('')}<td><b>${r.pct}%</b></td></tr>`).join('')}</table></div><div class="legend">✓ = تم رفع الشاهد (والرقم عدد الملفات) · — = لم يُرفع بعد. تتحدث تلقائياً كلما أضافت معلمة ملفاً.</div></div>`;
-  } else h+=renderBody(node,0,s);
+  } else h+=supportSummary(s,node)+renderBody(node,0,s);
   h+=extrasOf(s)+'</div>';
   app.innerHTML=h;
 }
@@ -618,6 +619,26 @@ function plansBox(title,rows){
   const list=rows.map(r=>`<div class="st-row pl"><div class="st-n">${esc(r.test)}${r.note?`<small>${esc(r.note)}</small>`:''}</div><div class="st-bar"><i style="width:${r.tg?r.ex/r.tg*100:0}%;background:#7a5ae0"></i></div><div class="st-a">${r.ex}/${r.tg}</div></div>`).join('');
   return`<div class="stp">${head}<div class="st-k k4"><div><b>${tg}</b><span>طالبة مستهدفة</span></div><div><b>${ex}</b><span>نفّذن الخطة</span><small class="st-up">${tg?Math.round(ex/tg*100):0}٪ من المستهدفات</small></div><div><b>${at}</b><span>محاولة علاجية</span></div><div><b class="g">${Math.round(ms)}٪</b><span>إتقان المهارات بعد العلاج</span></div></div>
   <div class="st-rows" style="margin-top:12px"><div class="st-cap">نسبة تنفيذ الخطة لكل اختبار</div>${list}</div></div>`}
+
+/* ---------- ملخص الأقسام المساندة ---------- */
+const CHECK={
+ intro:[['دليل الملف والتعريف به',/دليل|تعريف|نبذة/],['الرؤية والأهداف',/رؤية|هدف|أهداف/],['محتويات الملف وهيكله',/محتوى|محتويات|هيكل|فهرس/]],
+ committee:[['قرار تشكيل اللجنة',/تشكيل|قرار/],['مهام الأعضاء',/مهام|أدوار/],['خطة عمل اللجنة',/خطة/],['محاضر الاجتماعات',/محضر|محاضر|اجتماع/]],
+ baseline:[['نتائج العام السابق',/نتائج|نتيجة/],['تحليل نقاط القوة والضعف',/قوة|ضعف|تحليل/],['المؤشرات المستهدفة لهذا العام',/مؤشر|مستهدف|مقارنة/]],
+ plans:[['الخطة الإجرائية لرفع التحصيل',/إجرائية|اجرائية|تشغيلية|خطة/],['البرامج العلاجية',/علاج/],['البرامج الإثرائية',/إثرا|اثرا/],['برامج القدرات والتحصيلي',/قدرات|تحصيلي/]],
+ groups:[['المتفوقات',/متفوق/],['الموهوبات',/موهوب/],['المتأخرات دراسيًا',/متأخر|متعثر|تعثر|ضعيف/],['خطط الدعم والمتابعة',/دعم|متابعة/]],
+ parents:[['إشعارات المستوى',/إشعار|اشعار|مستوى/],['مجالس الأمهات',/مجلس|مجالس|لقاء/],['الاستبانات',/استبان/],['سجل التواصل',/تواصل|رسائل|سجل/]],
+ plc:[['خطة مجتمعات التعلم',/خطة/],['محاضر اللقاءات',/محضر|محاضر|لقاء/],['تبادل الزيارات والدروس التطبيقية',/زيار|تطبيقي/],['قياس الأثر',/أثر|اثر/]],
+ thanks:[['شهادات الطالبات',/طالب/],['شهادات المعلمات',/معلم/],['شهادات أولياء الأمور',/ولي|أولياء|اولياء|أمهات/]]};
+function lastDate(n){let d='';allFiles(n).forEach(f=>{if((f.date||'')>d)d=f.date});return d}
+function supportSummary(s,node){const C=CHECK[s.key];if(!C)return'';
+  const names=[];(function w(n){n.folders.forEach(f=>{names.push(norm(f.name));w(f)});allFiles(n).forEach(f=>names.push(norm(f.name)))})(node);
+  const done=C.map(([l,re])=>names.some(x=>re.test(x)));const k=done.filter(Boolean).length,pct=Math.round(k/C.length*100);
+  const ld=lastDate(node);const dt=ld?new Date(ld).toLocaleDateString('ar-SA',{day:'numeric',month:'long'}):'—';
+  return`<div class="stp sup"><div class="st-h"><h3>📋 ملخص القسم</h3></div>
+  <div class="st-k k4"><div><b>${countFiles(node)}</b><span>شاهد مرفوع</span></div><div><b>${k} / ${C.length}</b><span>عناصر مكتملة</span></div><div><b class="${pct>=75?'g':pct>=40?'':'r'}">${pct}٪</b><span>نسبة الاكتمال</span></div><div><b style="font-size:17px">${dt}</b><span>آخر تحديث</span></div></div>
+  <div class="bar" style="margin:12px 0 8px"><i style="width:${pct}%"></i></div>
+  <div class="sup-l">${C.map(([l],i)=>`<span class="${done[i]?'ok':''}">${done[i]?'✓':'○'} ${l}</span>`).join('')}</div></div>`}
 function extrasOf(s){let h='';if(s.note)h+=`<div class="note">${esc(s.note)}</div>`;
   if(s.links&&s.links.length)h+='<div class="links">'+s.links.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.title)} ↗</a>`).join('')+'</div>';return h}
 function tab(b){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===b));
